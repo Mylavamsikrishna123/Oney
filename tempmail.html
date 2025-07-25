@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TempMail</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f8fafc;
+      margin: 0;
+      padding: 0;
+      color: #1f2937;
+      text-align: center;
+    }
+    header {
+      background: linear-gradient(135deg, #3b82f6, #06b6d4);
+      color: white;
+      padding: 20px;
+      font-size: 24px;
+      font-weight: 700;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+    .container {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 20px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+    .email-box {
+      background: #e5f0ff;
+      padding: 10px;
+      border-radius: 8px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      font-size: 18px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+    }
+    button {
+      padding: 8px 16px;
+      background: #3b82f6;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 10px;
+      font-weight: 600;
+      transition: 0.3s;
+    }
+    button:hover {
+      background: #2563eb;
+    }
+    .copy-btn {
+      background: #06b6d4;
+      padding: 5px 8px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .copy-btn:hover {
+      background: #0e7490;
+    }
+    .emails {
+      margin-top: 20px;
+      text-align: left;
+    }
+    .email-item {
+      border-bottom: 1px solid #ddd;
+      padding: 10px;
+    }
+  </style>
+</head>
+<body>
+  <header>📧 TempMail (Powered by 1secmail API)</header>
+  <div class="container">
+    <div class="email-box">
+      <span id="tempEmail">Loading...</span>
+      <span class="copy-btn" onclick="copyEmail()">📋</span>
+    </div>
+    <button onclick="generateEmail()">Generate New Email</button>
+    <button onclick="fetchEmails()">Check Inbox</button>
+    <div class="emails" id="emails"></div>
+  </div>
+  <script>
+    let email = '';
+    const domains = [
+      "1secmail.com",
+      "1secmail.org",
+      "1secmail.net",
+      "wwjmp.com",
+      "esiix.com",
+      "xojxe.com",
+      "yoggm.com"
+    ];
+
+    function generateEmail() {
+      const user = 'user' + Math.floor(Math.random() * 1e6);
+      const randomDomain = domains[Math.floor(Math.random() * domains.length)];
+      email = `${user}@${randomDomain}`;
+      document.getElementById('tempEmail').innerText = email;
+      document.getElementById('emails').innerHTML = 'Inbox is empty.';
+    }
+
+    function copyEmail() {
+      if (!email) return alert("No email to copy!");
+      navigator.clipboard.writeText(email).then(() => {
+        alert("Copied: " + email);
+      });
+    }
+
+    async function fetchEmails() {
+      if (!email) return alert('Generate an email first!');
+      const [login, domain] = email.split('@');
+      const res = await fetch(`https://www.1secmail.com/api/v1/?action=getMessages&login=${login}&domain=${domain}`);
+      const data = await res.json();
+      const inbox = document.getElementById('emails');
+      inbox.innerHTML = '';
+      if (data.length === 0) {
+        inbox.innerHTML = '<p>No new emails.</p>';
+      } else {
+        for (let mail of data) {
+          inbox.innerHTML += `<div class="email-item">
+            <strong>${mail.from}</strong> - ${mail.subject}
+            <button onclick="readEmail(${mail.id}, '${login}', '${domain}')">Read</button>
+          </div>`;
+        }
+      }
+    }
+
+    async function readEmail(id, login, domain) {
+      const res = await fetch(`https://www.1secmail.com/api/v1/?action=readMessage&login=${login}&domain=${domain}&id=${id}`);
+      const data = await res.json();
+      alert(`From: ${data.from}\nSubject: ${data.subject}\n\n${data.textBody}`);
+    }
+
+    window.onload = generateEmail;
+  </script>
+</body>
+</html>

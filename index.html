@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>All-in-One Tools</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f8fafc;
+      margin: 0;
+      padding: 0;
+      color: #1f2937;
+    }
+    header {
+      background: linear-gradient(135deg, #3b82f6, #06b6d4);
+      color: white;
+      padding: 25px 10px;
+      text-align: center;
+      font-size: 28px;
+      font-weight: 700;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+    .container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      max-width: 1000px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+    .tool-card {
+      background: white;
+      border-radius: 16px;
+      padding: 30px 20px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+      text-align: center;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .tool-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+    }
+    .tool-card h2 {
+      font-size: 20px;
+      margin: 10px 0;
+    }
+    .tool-card p {
+      font-size: 14px;
+      color: #4b5563;
+    }
+    .tool-card a {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 10px 16px;
+      background: #3b82f6;
+      color: white;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: background 0.3s ease;
+    }
+    .tool-card a:hover {
+      background: #2563eb;
+    }
+  </style>
+</head>
+<body>
+  <header>⚡ All-in-One Tools</header>
+  <div class="container">
+    <div class="tool-card">
+      <h2>🎥 YouTube Thumbnail Downloader</h2>
+      <p>Get high-resolution thumbnails from any YouTube video.</p>
+      <a href="youtube-thumbnail.html">Open Tool</a>
+    </div>
+    <div class="tool-card">
+      <h2>📧 TempMail</h2>
+      <p>Generate disposable emails instantly for free.</p>
+      <a href="tempmail.html">Open Tool</a>
+    </div>
+    <div class="tool-card">
+      <h2>🔑 Password Generator</h2>
+      <p>Create secure, random passwords in one click.</p>
+      <a href="password-generator.html">Open Tool</a>
+    </div>
+  </div>
+</body>
+</html>
